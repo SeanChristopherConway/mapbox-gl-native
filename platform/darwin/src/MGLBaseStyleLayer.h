@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) float minimumZoomLevel;
 
+@property (nonatomic) NSPredicate *predicate;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -8,6 +8,8 @@
 
 #include <mbgl/style/layers/fill_layer.hpp>
 
+#include <mbgl/style/conversion.hpp>
+
 @interface MGLFillStyleLayer ()
 
 @property (nonatomic) mbgl::style::FillLayer *layer;

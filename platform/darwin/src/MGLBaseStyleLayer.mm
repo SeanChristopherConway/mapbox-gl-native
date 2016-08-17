@@ -3,6 +3,10 @@
 #import "MGLBaseStyleLayer_Private.h"
 #import "MGLStyleLayer_Private.h"
 #import "MGLMapView_Private.h"
+#import "MGLStyleFilter_Private.h"
+
+#include "darwin_conversion.hpp"
+#include "darwinvalue.hpp"
 
 #include <mbgl/style/layer.hpp>
 
@@ -14,6 +18,10 @@
 @synthesize layerIdentifier;
 @synthesize mapView;
 @synthesize layer;
+
+- (void)setFilter:(MGLStyleFilter *)filter
+{
+}
 
 - (void)update
 {
