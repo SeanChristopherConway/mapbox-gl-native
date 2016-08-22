@@ -79,6 +79,12 @@ static NSString * const MBXViewControllerAnnotationViewReuseIdentifer = @"MBXVie
     self.debugLoggingEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"MGLMapboxMetricsDebugLoggingEnabled"];
 }
 
+- (void)mapViewDidFinishLoadingMap:(MGLMapView *)mapView
+{
+    MGLLineStyleLayer *roadLayer = [self.mapView.style layerWithIdentifier:@"road-primary"];
+    roadLayer.predicate = [NSPredicate predicateWithFormat:@"oneway == %@", @1];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];

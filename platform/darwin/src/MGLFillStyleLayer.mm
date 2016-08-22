@@ -8,8 +8,6 @@
 
 #include <mbgl/style/layers/fill_layer.hpp>
 
-#include <mbgl/style/conversion.hpp>
-
 @interface MGLFillStyleLayer ()
 
 @property (nonatomic) mbgl::style::FillLayer *layer;
@@ -29,6 +27,11 @@
         _layer = new mbgl::style::FillLayer(layerIdentifier.UTF8String, sourceIdentifier.UTF8String);
     }
     return self;
+}
+
+- (void)setPredicate:(NSPredicate *)predicate
+{
+    self.layer->setFilter(predicate.mgl_filter);
 }
 
 #pragma mark - Accessing the Paint Attributes

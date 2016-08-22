@@ -13,6 +13,8 @@ typedef NS_ENUM(NSUInteger, MGLFillStyleLayerFillTranslateAnchor) {
 
 @interface MGLFillStyleLayer : MGLBaseStyleLayer <MGLStyleLayer>
 
+@property (nonatomic) NSPredicate *predicate;
+
 #pragma mark - Accessing the Paint Attributes
 
 /**

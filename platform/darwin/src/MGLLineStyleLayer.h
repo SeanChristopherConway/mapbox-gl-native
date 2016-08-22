@@ -25,6 +25,8 @@ typedef NS_ENUM(NSUInteger, MGLLineStyleLayerLineTranslateAnchor) {
 
 @interface MGLLineStyleLayer : MGLBaseStyleLayer <MGLStyleLayer>
 
+@property (nonatomic) NSPredicate *predicate;
+
 #pragma mark - Accessing the Layout Attributes
 
 /**

@@ -29,6 +29,11 @@
     return self;
 }
 
+- (void)setPredicate:(NSPredicate *)predicate
+{
+    self.layer->setFilter(predicate.mgl_filter);
+}
+
 #pragma mark - Accessing the Paint Attributes
 
 - (void)setCircleRadius:(id <MGLStyleAttributeValue, MGLStyleAttributeValue_Private>)circleRadius {

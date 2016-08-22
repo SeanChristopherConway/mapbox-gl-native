@@ -29,6 +29,11 @@
     return self;
 }
 
+- (void)setPredicate:(NSPredicate *)predicate
+{
+    self.layer->setFilter(predicate.mgl_filter);
+}
+
 #pragma mark - Accessing the Layout Attributes
 
 - (void)setLineCap:(id <MGLStyleAttributeValue, MGLStyleAttributeValue_Private>)lineCap {

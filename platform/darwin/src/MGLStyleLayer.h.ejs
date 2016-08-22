@@ -35,6 +35,10 @@ typedef NS_ENUM(NSUInteger, MGL<%- camelize(type) %>StyleLayer<%- camelize(prope
 <% } -%>
 @interface MGL<%- camelize(type) %>StyleLayer : MGLBaseStyleLayer <MGLStyleLayer>
 
+<% if (type !== 'background' && type !== 'raster') { -%>
+@property (nonatomic) NSPredicate *predicate;
+
+<% } -%>
 <% if (layoutProperties.length) { -%>
 #pragma mark - Accessing the Layout Attributes
 
@@ -53,6 +57,7 @@ typedef NS_ENUM(NSUInteger, MGL<%- camelize(type) %>StyleLayer<%- camelize(prope
 
 <% } -%>
 <% } -%>
+<% if (paintProperties.length) { -%>
 #pragma mark - Accessing the Paint Attributes
 
 <% for (const property of paintProperties) { -%>
@@ -68,6 +73,7 @@ typedef NS_ENUM(NSUInteger, MGL<%- camelize(type) %>StyleLayer<%- camelize(prope
  */
 @property (nonatomic<% if (!property.required) { %>, null_resettable<% } %>) <%- propertyType(property, false, type) %> <%- camelizeWithLeadingLowercase(property.name) %>;
 
+<% } -%>
 <% } -%>
 @end
 
