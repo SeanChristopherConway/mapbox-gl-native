@@ -23,14 +23,18 @@ public:
     mbgl::style::Filter operator()(NSComparisonPredicate *predicate) {
         const NSPredicateOperatorType operatorType = predicate.predicateOperatorType;
         switch (operatorType) {
-            case NSEqualToPredicateOperatorType:
-            {
+            case NSEqualToPredicateOperatorType: {
                 auto filter = mbgl::style::EqualsFilter();
                 filter.key = predicate.leftExpression.keyPath.UTF8String;
                 filter.value = getValue(predicate.rightExpression.constantValue);
                 return filter;
             }
-                
+            case NSNotEqualToPredicateOperatorType: {
+                auto filter = mbgl::style::NotEqualsFilter();
+                filter.key = predicate.leftExpression.keyPath.UTF8String;
+                filter.value = getValue(predicate.rightExpression.constantValue);
+                return filter;
+            }
             default:
             {
                 [NSException raise:@"Predicate operator type not handled" format:@""];
@@ -46,7 +50,7 @@ public:
 - (mbgl::style::Filter)mgl_filter
 {
     if ([self isKindOfClass:NSCompoundPredicate.class]) {
-        [NSException raise:@"Nested predicates (NSCompoundPredicate) are not yet implemented" format:@""];
+        [NSException raise:@"Nested predicates (NSCompoundPredicate) are not yet supported" format:@""];
     }
     
     NSComparisonPredicate *predicate = (NSComparisonPredicate *)self;
