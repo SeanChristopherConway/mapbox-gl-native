@@ -81,8 +81,25 @@ static NSString * const MBXViewControllerAnnotationViewReuseIdentifer = @"MBXVie
 
 - (void)mapViewDidFinishLoadingMap:(MGLMapView *)mapView
 {
-    MGLLineStyleLayer *roadLayer = [self.mapView.style layerWithIdentifier:@"road-primary"];
-    roadLayer.predicate = [NSPredicate predicateWithFormat:@"oneway == %@", @1];
+    [mapView setCenterCoordinate:CLLocationCoordinate2DMake(52.36, 4.86) zoomLevel:12 animated:NO];
+
+#warning DEBUG CODE
+    
+    NSString *filePath = [[NSBundle bundleForClass:self.class] pathForResource:@"amsterdam" ofType:@"geojson"];
+    NSURL *url = [NSURL fileURLWithPath:filePath];
+    NSData *geoJSONData = [NSData dataWithContentsOfURL:url];
+    MGLGeoJSONSource *source = [[MGLGeoJSONSource alloc] initWithSourceIdentifier:@"source" geoJSONData:geoJSONData];
+    [self.mapView.style addSource:source];
+    
+    MGLFillStyleLayer *parksLayer = [[MGLFillStyleLayer alloc] initWithLayerIdentifier:@"park-layer" sourceIdentifier:@"source"];
+    parksLayer.fillColor = [UIColor redColor];
+    parksLayer.predicate = [NSPredicate predicateWithFormat:@"name == 'Westerpark'"];
+    [self.mapView.style addLayer:parksLayer];
+    
+    MGLFillStyleLayer *singleParkLayer = [[MGLFillStyleLayer alloc] initWithLayerIdentifier:@"single-park-layer" sourceIdentifier:@"source"];
+    singleParkLayer.fillColor = [UIColor greenColor];
+    singleParkLayer.predicate = [NSPredicate predicateWithFormat:@"name == 'vondelpark'"];
+    [self.mapView.style addLayer:singleParkLayer];
 }
 
 - (void)viewDidAppear:(BOOL)animated

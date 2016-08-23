@@ -5,7 +5,6 @@
 #import "MGLMapView_Private.h"
 
 #include <mbgl/style/layer.hpp>
-#include <mbgl/style/filter.hpp>
 
 @interface MGLBaseStyleLayer() <MGLStyleLayer_Private>
 @end

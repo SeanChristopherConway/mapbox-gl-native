@@ -4,15 +4,20 @@ class FilterEvaluator {
 public:
     
     mbgl::Value getValue(id obj) {
-#warning Only NSNumber are supported for now
-        NSNumber *number = (NSNumber *)obj;
-        if((strcmp([number objCType], @encode(int))) == 0) {
-            return mbgl::Value(number.intValue);
-        } else if ((strcmp([number objCType], @encode(float))) == 0) {
-            return mbgl::Value(number.floatValue);
-        } else {
-            return mbgl::Value(number.boolValue);
+        if ([obj isKindOfClass:NSString.class]) {
+            NSString *string = (NSString *)obj;
+            return std::string(string.UTF8String);
+        } else if ([obj isKindOfClass:NSString.class]) {
+            NSNumber *number = (NSNumber *)obj;
+            if((strcmp([number objCType], @encode(int))) == 0) {
+                return number.intValue;
+            } else if ((strcmp([number objCType], @encode(float))) == 0) {
+                return number.floatValue;
+            } else {
+                return number.boolValue;
+            }
         }
+        return "";
     }
     
     mbgl::style::Filter operator()(NSComparisonPredicate *predicate) {
