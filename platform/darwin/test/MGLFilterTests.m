@@ -25,23 +25,23 @@
     [self.mapView.style removeSource:source];
 }
 
-- (NSArray *)predicates
+- (NSArray<NSPredicate *> *)predicates
 {
     NSPredicate *equalPredicate = [NSPredicate predicateWithFormat:@"type == 'neighborhood'"];
     NSPredicate *notEqualPredicate = [NSPredicate predicateWithFormat:@"type != 'park'"];
-    NSPredicate *greaterThanPredicate = [NSPredicate predicateWithFormat:@"stroke-width > %@", @1];
-    NSPredicate *greaterThanOrEqualToPredicate = [NSPredicate predicateWithFormat:@"stroke-width >= %@", @1];
-    NSPredicate *lessThanOrEqualToPredicate = [NSPredicate predicateWithFormat:@"stroke-width <= %@", @1];
-    NSPredicate *lessThanPredicate = [NSPredicate predicateWithFormat:@"stroke-width < %@", @1];
+    NSPredicate *greaterThanPredicate = [NSPredicate predicateWithFormat:@"%K > %@", @"stroke-width", @1];
+    NSPredicate *greaterThanOrEqualToPredicate = [NSPredicate predicateWithFormat:@"%K >= %@", @"stroke-width", @1];
+    NSPredicate *lessThanOrEqualToPredicate = [NSPredicate predicateWithFormat:@"%K <= %@", @"stroke-width", @1];
+    NSPredicate *lessThanPredicate = [NSPredicate predicateWithFormat:@"%K < %@", @"stroke-width", @1];
     NSPredicate *inPredicate = [NSPredicate predicateWithFormat:@"type IN %@", @[@"park", @"neighborhood"]];
-    NSPredicate *notInPredicate = [NSPredicate predicateWithFormat:@"type !IN %@", @[@"park", @"neighborhood"]];
-    return @[equalPredicate, notEqualPredicate, greaterThanPredicate, greaterThanOrEqualToPredicate, lessThanOrEqualToPredicate, lessThanPredicate, inPredicate, notInPredicate];
+    NSPredicate *notInPredicate = [NSPredicate predicateWithFormat:@"NOT (type IN %@)", @[@"park", @"neighborhood"]];
+    NSPredicate *inNotInPredicate = [NSPredicate predicateWithFormat:@"type IN %@ AND NOT (type IN %@)", @[@"park"], @[@"neighborhood"]];
+    return @[equalPredicate, notEqualPredicate, greaterThanPredicate, greaterThanOrEqualToPredicate, lessThanOrEqualToPredicate, lessThanPredicate, inPredicate, notInPredicate, inNotInPredicate];
 }
 
 - (void)testPredicates
 {
-    NSArray *predicates = [self.predicates subarrayWithRange:NSMakeRange(0, 2)]; // Only == and != are implemented so far
-    for (NSPredicate *predicate in predicates) {
+    for (NSPredicate *predicate in self.predicates) {
         layer.predicate = predicate;
     }
     [self.mapView.style addLayer:layer];
@@ -61,7 +61,8 @@
 
 - (void)testNotPredicates
 {
-    layer.predicate = [NSCompoundPredicate notPredicateWithSubpredicate:self.predicates];
+    NSCompoundPredicate *notPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:self.predicates];
+    layer.predicate = [NSCompoundPredicate notPredicateWithSubpredicate:notPredicate];
     [self.mapView.style addLayer:layer];
 }
 
