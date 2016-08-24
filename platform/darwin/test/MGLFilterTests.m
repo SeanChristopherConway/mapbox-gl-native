@@ -39,6 +39,16 @@
     return @[equalPredicate, notEqualPredicate, greaterThanPredicate, greaterThanOrEqualToPredicate, lessThanOrEqualToPredicate, lessThanPredicate, inPredicate, notInPredicate, inNotInPredicate];
 }
 
+- (void)testPredicateGetter
+{
+    NSPredicate *predicate = self.predicates[0];
+    layer.predicate = predicate;
+    
+    NSPredicate *getPredicate = layer.predicate;
+    
+    XCTAssertEqualObjects(predicate, getPredicate);
+}
+
 - (void)testPredicates
 {
     for (NSPredicate *predicate in self.predicates) {

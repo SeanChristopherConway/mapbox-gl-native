@@ -69,7 +69,7 @@ typedef NS_ENUM(NSUInteger, MGLSymbolStyleLayerTextTranslateAnchor) {
 
 @interface MGLSymbolStyleLayer : MGLBaseStyleLayer <MGLStyleLayer>
 
-@property (nonatomic) NSPredicate *predicate;
+@property (nonatomic, nullable) NSPredicate *predicate;
 
 #pragma mark - Accessing the Layout Attributes
 

@@ -18,7 +18,7 @@ typedef NS_ENUM(NSUInteger, MGLCircleStyleLayerCirclePitchScale) {
 
 @interface MGLCircleStyleLayer : MGLBaseStyleLayer <MGLStyleLayer>
 
-@property (nonatomic) NSPredicate *predicate;
+@property (nonatomic, nullable) NSPredicate *predicate;
 
 #pragma mark - Accessing the Paint Attributes
 

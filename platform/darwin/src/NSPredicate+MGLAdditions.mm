@@ -8,4 +8,9 @@
     return {};
 }
 
++ (instancetype)mgl_predicateWithFilter:(mbgl::style::Filter)filter
+{
+    return nil;
+}
+
 @end

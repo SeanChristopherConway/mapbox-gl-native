@@ -8,7 +8,7 @@
         NSArray *values = self.constantValue;
         std::vector<mbgl::Value>convertedValues;
         for (id value in values) {
-            convertedValues.push_back([self convertedValueWithValue:value]);
+            convertedValues.push_back([self mgl_convertedValueWithValue:value]);
         }
         return convertedValues;
     }
@@ -18,10 +18,10 @@
 
 - (mbgl::Value)mgl_filterValue
 {
-    return [self convertedValueWithValue:self.constantValue];
+    return [self mgl_convertedValueWithValue:self.constantValue];
 }
 
-- (mbgl::Value)convertedValueWithValue:(id)value
+- (mbgl::Value)mgl_convertedValueWithValue:(id)value
 {
     if ([value isKindOfClass:NSString.class]) {
         NSString *string = (NSString *)value;

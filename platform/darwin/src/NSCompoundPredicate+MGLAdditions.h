@@ -4,6 +4,4 @@
 
 @interface NSCompoundPredicate (MGLAdditions)
 
-- (mbgl::style::Filter)mgl_filter;
-
 @end

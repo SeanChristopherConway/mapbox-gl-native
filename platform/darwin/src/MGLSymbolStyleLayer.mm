@@ -34,6 +34,11 @@
     self.layer->setFilter(predicate.mgl_filter);
 }
 
+- (NSPredicate *)predicate
+{
+    return [NSPredicate mgl_predicateWithFilter:self.layer->getFilter()];
+}
+
 #pragma mark - Accessing the Layout Attributes
 
 - (void)setSymbolPlacement:(id <MGLStyleAttributeValue, MGLStyleAttributeValue_Private>)symbolPlacement {

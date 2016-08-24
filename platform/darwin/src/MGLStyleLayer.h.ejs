@@ -36,7 +36,7 @@ typedef NS_ENUM(NSUInteger, MGL<%- camelize(type) %>StyleLayer<%- camelize(prope
 @interface MGL<%- camelize(type) %>StyleLayer : MGLBaseStyleLayer <MGLStyleLayer>
 
 <% if (type !== 'background' && type !== 'raster') { -%>
-@property (nonatomic) NSPredicate *predicate;
+@property (nonatomic, nullable) NSPredicate *predicate;
 
 <% } -%>
 <% if (layoutProperties.length) { -%>
