@@ -629,7 +629,7 @@
 				35C5D84B1D6DD75B00E95907 /* MGLFilterTests.m */,
 			);
 			name = Styling;
-			path = ../../ios/test;
+			path = ../../darwin/test;
 			sourceTree = "<group>";
 		};
 		DA8F25B81D51D2280010E6B5 /* Foundation Templates */ = {

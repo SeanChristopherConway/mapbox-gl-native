@@ -39,13 +39,29 @@
     return @[equalPredicate, notEqualPredicate, greaterThanPredicate, greaterThanOrEqualToPredicate, lessThanOrEqualToPredicate, lessThanPredicate, inPredicate, notInPredicate, inNotInPredicate];
 }
 
-- (void)testPredicateGetter
+- (void)testPredicateGetters
 {
     NSArray *predicates = [self.predicates subarrayWithRange:NSMakeRange(0, 7)];
     for (NSPredicate *predicate in predicates) {
         layer.predicate = predicate;
         XCTAssertEqualObjects(layer.predicate, predicate);
     }
+    [self.mapView.style addLayer:layer];
+}
+
+- (void)testNestedFilters
+{
+    NSPredicate *equalPredicate = [NSPredicate predicateWithFormat:@"type == 'neighbourhood'"];
+    NSPredicate *notEqualPredicate = [NSPredicate predicateWithFormat:@"type != 'park'"];
+    
+    NSPredicate *allPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[equalPredicate, notEqualPredicate]];
+    NSPredicate *anyPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[equalPredicate, notEqualPredicate]];
+    
+    layer.predicate = allPredicate;
+    XCTAssertEqualObjects(layer.predicate, allPredicate);
+    layer.predicate = anyPredicate;
+    XCTAssertEqualObjects(layer.predicate, anyPredicate);
+    
     [self.mapView.style addLayer:layer];
 }
 

@@ -30,7 +30,7 @@ public:
         return convertedValues;
     }
     [NSException raise:@"Values not handled" format:@""];
-    return std::vector<mbgl::Value>();
+    return { };
 }
 
 - (mbgl::Value)mgl_filterValue
@@ -48,7 +48,7 @@ public:
             return { number.intValue };
         } else if ((strcmp([number objCType], @encode(double))) == 0) {
             return { number.doubleValue };
-        } else {
+        } else if ((strcmp([number objCType], @encode(bool))) == 0) {
             return { number.boolValue };
         }
     }
