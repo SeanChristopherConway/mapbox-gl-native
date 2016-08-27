@@ -49,6 +49,10 @@ public:
     // new data available that a tile in the "partial" state might be interested at.
     bool update(const UpdateParameters&);
 
+    // Request that all loaded tiles re-run the layout operation on the existing source
+    // data with fresh style information.
+    void reload();
+
     void startRender(algorithm::ClipIDGenerator&,
                      const mat4& projMatrix,
                      const TransformState&);
