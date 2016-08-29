@@ -36,22 +36,26 @@
     NSPredicate *inPredicate = [NSPredicate predicateWithFormat:@"type IN %@", @[@"park", @"neighbourhood"]];
     NSPredicate *notInPredicate = [NSPredicate predicateWithFormat:@"NOT (type IN %@)", @[@"park", @"neighbourhood"]];
     NSPredicate *inNotInPredicate = [NSPredicate predicateWithFormat:@"type IN %@ AND NOT (type IN %@)", @[@"park"], @[@"neighbourhood", @"test"]];
-    return @[equalPredicate, notEqualPredicate, greaterThanPredicate, greaterThanOrEqualToPredicate, lessThanOrEqualToPredicate, lessThanPredicate, inPredicate, notInPredicate, inNotInPredicate];
+    NSPredicate *typePredicate = [NSPredicate predicateWithFormat:@"%K == %@", @"$type", @"Feature"];
+    NSPredicate *idPredicate = [NSPredicate predicateWithFormat:@"%K == %@", @"$id", @"1234123"];
+    NSPredicate *specialCharsPredicate = [NSPredicate predicateWithFormat:@"%K == %@", @"ty-’pè", @"sŒm-ethįng"];
+    return @[equalPredicate,
+             notEqualPredicate,
+             greaterThanPredicate,
+             greaterThanOrEqualToPredicate,
+             lessThanOrEqualToPredicate,
+             lessThanPredicate,
+             inPredicate,
+             notInPredicate,
+             inNotInPredicate,
+             typePredicate,
+             idPredicate,
+             specialCharsPredicate];
 }
 
-- (void)testInNotInPredicates
+- (void)testAllPredicates
 {
-    NSPredicate *setPredicate = [NSPredicate predicateWithFormat:@"type IN %@ AND NOT type IN %@", @[@"park"], @[@"neighbourhood", @"test"]];
-    layer.predicate = setPredicate;
-    NSPredicate *getPredicate = layer.predicate;
-    XCTAssertEqualObjects(setPredicate, getPredicate);
-    [self.mapView.style addLayer:layer];
-}
-
-- (void)testPredicateGetters
-{
-    NSArray *predicates = [self.predicates subarrayWithRange:NSMakeRange(0, 7)];
-    for (NSPredicate *predicate in predicates) {
+    for (NSPredicate *predicate in self.predicates) {
         layer.predicate = predicate;
         XCTAssertEqualObjects(layer.predicate, predicate);
     }
@@ -71,14 +75,6 @@
     layer.predicate = anyPredicate;
     XCTAssertEqualObjects(layer.predicate, anyPredicate);
     
-    [self.mapView.style addLayer:layer];
-}
-
-- (void)testPredicates
-{
-    for (NSPredicate *predicate in self.predicates) {
-        layer.predicate = predicate;
-    }
     [self.mapView.style addLayer:layer];
 }
 
