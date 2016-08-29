@@ -35,8 +35,17 @@
     NSPredicate *lessThanPredicate = [NSPredicate predicateWithFormat:@"%K < %@", @"stroke-width", @2.1];
     NSPredicate *inPredicate = [NSPredicate predicateWithFormat:@"type IN %@", @[@"park", @"neighbourhood"]];
     NSPredicate *notInPredicate = [NSPredicate predicateWithFormat:@"NOT (type IN %@)", @[@"park", @"neighbourhood"]];
-    NSPredicate *inNotInPredicate = [NSPredicate predicateWithFormat:@"type IN %@ AND NOT (type IN %@)", @[@"park"], @[@"neighbourhood"]];
+    NSPredicate *inNotInPredicate = [NSPredicate predicateWithFormat:@"type IN %@ AND NOT (type IN %@)", @[@"park"], @[@"neighbourhood", @"test"]];
     return @[equalPredicate, notEqualPredicate, greaterThanPredicate, greaterThanOrEqualToPredicate, lessThanOrEqualToPredicate, lessThanPredicate, inPredicate, notInPredicate, inNotInPredicate];
+}
+
+- (void)testInNotInPredicates
+{
+    NSPredicate *setPredicate = [NSPredicate predicateWithFormat:@"type IN %@ AND NOT type IN %@", @[@"park"], @[@"neighbourhood", @"test"]];
+    layer.predicate = setPredicate;
+    NSPredicate *getPredicate = layer.predicate;
+    XCTAssertEqualObjects(setPredicate, getPredicate);
+    [self.mapView.style addLayer:layer];
 }
 
 - (void)testPredicateGetters

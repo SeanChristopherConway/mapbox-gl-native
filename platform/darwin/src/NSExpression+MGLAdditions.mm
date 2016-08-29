@@ -1,22 +1,5 @@
 #import "NSExpression+MGLAdditions.h"
 
-class FilterExpressionEvaluator {
-public:
-    id operator()(mbgl::Value value) {
-        if (value.is<std::string>())
-            return @(value.get<std::string>().c_str());
-        if (value.is<bool>())
-            return @(value.get<bool>());
-        if (value.is<int64_t>())
-            return @(value.get<int64_t>());
-        if (value.is<uint64_t>())
-            return @(value.get<uint64_t>());
-        if (value.is<double>())
-            return @(value.get<double>());
-        return @"";
-    }
-};
-
 @implementation NSExpression (MGLAdditions)
 
 - (std::vector<mbgl::Value>)mgl_filterValues

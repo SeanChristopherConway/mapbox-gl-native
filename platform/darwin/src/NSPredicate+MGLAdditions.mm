@@ -1,5 +1,7 @@
 #import "NSPredicate+MGLAdditions.h"
 
+#import "MGLValueEvaluator.h"
+
 class FilterEvaluator {
 public:
     
@@ -15,23 +17,9 @@ public:
     NSArray* getValues(std::vector<mbgl::Value> v) {
         NSMutableArray *array = [NSMutableArray arrayWithCapacity:v.size()];
         for (std::vector<mbgl::Value>::iterator it = v.begin(); it != v.end(); ++it) {
-            [array addObject:getValue(*it)];
+            [array addObject:mbgl::Value::visit(*it, ValueEvaluator())];
         }
         return array;
-    }
-    
-    id getValue (mbgl::Value value) {
-        if (value.is<std::string>())
-            return @(value.get<std::string>().c_str());
-        if (value.is<bool>())
-            return @(value.get<bool>());
-        if (value.is<int64_t>())
-            return @(value.get<int64_t>());
-        if (value.is<uint64_t>())
-            return @(value.get<uint64_t>());
-        if (value.is<double>())
-            return @(value.get<double>());
-        return nil;
     }
     
     NSPredicate* operator()(mbgl::style::NullFilter filter) {
@@ -39,27 +27,27 @@ public:
     }
     
     NSPredicate* operator()(mbgl::style::EqualsFilter filter) {
-        return [NSPredicate predicateWithFormat:@"%K == %@", @(filter.key.c_str()), getValue(filter.value)];
+        return [NSPredicate predicateWithFormat:@"%K == %@", @(filter.key.c_str()), mbgl::Value::visit(filter.value, ValueEvaluator())];
     }
     
     NSPredicate* operator()(mbgl::style::NotEqualsFilter filter) {
-        return [NSPredicate predicateWithFormat:@"%K != %@", @(filter.key.c_str()), getValue(filter.value)];
+        return [NSPredicate predicateWithFormat:@"%K != %@", @(filter.key.c_str()), mbgl::Value::visit(filter.value, ValueEvaluator())];
     }
     
     NSPredicate* operator()(mbgl::style::GreaterThanFilter filter) {
-        return [NSPredicate predicateWithFormat:@"%K > %@", @(filter.key.c_str()), getValue(filter.value)];
+        return [NSPredicate predicateWithFormat:@"%K > %@", @(filter.key.c_str()), mbgl::Value::visit(filter.value, ValueEvaluator())];
     }
     
     NSPredicate* operator()(mbgl::style::GreaterThanEqualsFilter filter) {
-        return [NSPredicate predicateWithFormat:@"%K >= %@", @(filter.key.c_str()), getValue(filter.value)];
+        return [NSPredicate predicateWithFormat:@"%K >= %@", @(filter.key.c_str()), mbgl::Value::visit(filter.value, ValueEvaluator())];
     }
     
     NSPredicate* operator()(mbgl::style::LessThanFilter filter) {
-        return [NSPredicate predicateWithFormat:@"%K < %@", @(filter.key.c_str()), getValue(filter.value)];
+        return [NSPredicate predicateWithFormat:@"%K < %@", @(filter.key.c_str()), mbgl::Value::visit(filter.value, ValueEvaluator())];
     }
     
     NSPredicate* operator()(mbgl::style::LessThanEqualsFilter filter) {
-        return [NSPredicate predicateWithFormat:@"%K <= %@", @(filter.key.c_str()), getValue(filter.value)];
+        return [NSPredicate predicateWithFormat:@"%K <= %@", @(filter.key.c_str()), mbgl::Value::visit(filter.value, ValueEvaluator())];
     }
     
     NSPredicate* operator()(mbgl::style::InFilter filter) {
@@ -67,7 +55,7 @@ public:
     }
     
     NSPredicate* operator()(mbgl::style::NotInFilter filter) {
-        return [NSPredicate predicateWithFormat:@"NOT (%K IN %@)", @(filter.key.c_str()), getValues(filter.values)];
+        return [NSPredicate predicateWithFormat:@"NOT %K IN %@", @(filter.key.c_str()), getValues(filter.values)];
     }
     
     NSPredicate* operator()(mbgl::style::AnyFilter filter) {
@@ -79,7 +67,8 @@ public:
     }
     
     NSPredicate* operator()(mbgl::style::NoneFilter filter) {
-        return nil;
+        NSCompoundPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:getPredicates(filter.filters)];
+        return [NSCompoundPredicate notPredicateWithSubpredicate:predicate];
     }
     
     NSPredicate* operator()(mbgl::style::HasFilter filter) {

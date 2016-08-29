@@ -3,51 +3,51 @@
 #import "NSPredicate+MGLAdditions.h"
 #import "NSExpression+MGLAdditions.h"
 
-class FilterEvaluator {
-public:
+@implementation NSComparisonPredicate (MGLAdditions)
 
-mbgl::style::Filter operator()(NSComparisonPredicate *predicate) {
-    switch (predicate.predicateOperatorType) {
+- (mbgl::style::Filter)mgl_filter
+{
+    switch (self.predicateOperatorType) {
         case NSEqualToPredicateOperatorType: {
             auto filter = mbgl::style::EqualsFilter();
-            filter.key = predicate.leftExpression.keyPath.UTF8String;
-            filter.value = predicate.rightExpression.mgl_filterValue;
+            filter.key = self.leftExpression.keyPath.UTF8String;
+            filter.value = self.rightExpression.mgl_filterValue;
             return filter;
         }
         case NSNotEqualToPredicateOperatorType: {
             auto filter = mbgl::style::NotEqualsFilter();
-            filter.key = predicate.leftExpression.keyPath.UTF8String;
-            filter.value = predicate.rightExpression.mgl_filterValue;
+            filter.key = self.leftExpression.keyPath.UTF8String;
+            filter.value = self.rightExpression.mgl_filterValue;
             return filter;
         }
         case NSGreaterThanPredicateOperatorType: {
             auto filter = mbgl::style::GreaterThanFilter();
-            filter.key = predicate.leftExpression.keyPath.UTF8String;
-            filter.value = predicate.rightExpression.mgl_filterValue;
+            filter.key = self.leftExpression.keyPath.UTF8String;
+            filter.value = self.rightExpression.mgl_filterValue;
             return filter;
         }
         case NSGreaterThanOrEqualToPredicateOperatorType: {
             auto filter = mbgl::style::GreaterThanEqualsFilter();
-            filter.key = predicate.leftExpression.keyPath.UTF8String;
-            filter.value = predicate.rightExpression.mgl_filterValue;
+            filter.key = self.leftExpression.keyPath.UTF8String;
+            filter.value = self.rightExpression.mgl_filterValue;
             return filter;
         }
         case NSLessThanPredicateOperatorType: {
             auto filter = mbgl::style::LessThanFilter();
-            filter.key = predicate.leftExpression.keyPath.UTF8String;
-            filter.value = predicate.rightExpression.mgl_filterValue;
+            filter.key = self.leftExpression.keyPath.UTF8String;
+            filter.value = self.rightExpression.mgl_filterValue;
             return filter;
         }
         case NSLessThanOrEqualToPredicateOperatorType: {
             auto filter = mbgl::style::LessThanEqualsFilter();
-            filter.key = predicate.leftExpression.keyPath.UTF8String;
-            filter.value = predicate.rightExpression.mgl_filterValue;
+            filter.key = self.leftExpression.keyPath.UTF8String;
+            filter.value = self.rightExpression.mgl_filterValue;
             return filter;
         }
         case NSInPredicateOperatorType: {
             auto filter = mbgl::style::InFilter();
-            filter.key = predicate.leftExpression.keyPath.UTF8String;
-            filter.values = predicate.rightExpression.mgl_filterValues;
+            filter.key = self.leftExpression.keyPath.UTF8String;
+            filter.values = self.rightExpression.mgl_filterValues;
             return filter;
         }
         case NSMatchesPredicateOperatorType:
@@ -57,20 +57,11 @@ mbgl::style::Filter operator()(NSComparisonPredicate *predicate) {
         case NSCustomSelectorPredicateOperatorType:
         case NSContainsPredicateOperatorType:
         case NSBetweenPredicateOperatorType:
-            [NSException raise:@"Operator type not handled"
-                        format:@""];
+            [NSException raise:@"Unsupported operator type"
+                        format:@"NSPredicateOperatorType:%lu is not supported.", (unsigned long)self.predicateOperatorType];
     }
     
     return {};
-}
-};
-
-@implementation NSComparisonPredicate (MGLAdditions)
-
-- (mbgl::style::Filter)mgl_filter
-{
-    FilterEvaluator evaluator;
-    return evaluator(self);
 }
 
 @end
