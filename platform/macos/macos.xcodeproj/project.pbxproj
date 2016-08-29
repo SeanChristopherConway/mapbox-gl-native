@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3508EC641D749D39009B0EE4 /* NSExpression+MGLAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3508EC621D749D39009B0EE4 /* NSExpression+MGLAdditions.h */; };
+		3508EC651D749D39009B0EE4 /* NSExpression+MGLAdditions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3508EC631D749D39009B0EE4 /* NSExpression+MGLAdditions.mm */; };
 		352742781D4C220900A1ECE6 /* MGLStyleAttributeValue.h in Headers */ = {isa = PBXBuildFile; fileRef = 352742771D4C220900A1ECE6 /* MGLStyleAttributeValue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3527427C1D4C238F00A1ECE6 /* NSColor+MGLStyleAttributeAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3527427A1D4C238F00A1ECE6 /* NSColor+MGLStyleAttributeAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3527427D1D4C238F00A1ECE6 /* NSColor+MGLStyleAttributeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3527427B1D4C238F00A1ECE6 /* NSColor+MGLStyleAttributeAdditions.m */; };
@@ -213,6 +215,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3508EC621D749D39009B0EE4 /* NSExpression+MGLAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSExpression+MGLAdditions.h"; sourceTree = "<group>"; };
+		3508EC631D749D39009B0EE4 /* NSExpression+MGLAdditions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSExpression+MGLAdditions.mm"; sourceTree = "<group>"; };
 		352742771D4C220900A1ECE6 /* MGLStyleAttributeValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGLStyleAttributeValue.h; sourceTree = "<group>"; };
 		3527427A1D4C238F00A1ECE6 /* NSColor+MGLStyleAttributeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+MGLStyleAttributeAdditions.h"; sourceTree = "<group>"; };
 		3527427B1D4C238F00A1ECE6 /* NSColor+MGLStyleAttributeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+MGLStyleAttributeAdditions.m"; sourceTree = "<group>"; };
@@ -706,9 +710,17 @@
 			children = (
 				DAE6C37D1CC31E2A00DB3429 /* NSBundle+MGLAdditions.h */,
 				DAE6C37E1CC31E2A00DB3429 /* NSBundle+MGLAdditions.m */,
+				35C5D8431D6DD66D00E95907 /* NSComparisonPredicate+MGLAdditions.h */,
+				35C5D8441D6DD66D00E95907 /* NSComparisonPredicate+MGLAdditions.mm */,
+				35C5D8451D6DD66D00E95907 /* NSCompoundPredicate+MGLAdditions.h */,
+				35C5D8461D6DD66D00E95907 /* NSCompoundPredicate+MGLAdditions.mm */,
 				35D65C581D65AD5500722C23 /* NSDate+MGLAdditions.h */,
 				35D65C591D65AD5500722C23 /* NSDate+MGLAdditions.mm */,
 				DAE6C37F1CC31E2A00DB3429 /* NSException+MGLAdditions.h */,
+				3508EC621D749D39009B0EE4 /* NSExpression+MGLAdditions.h */,
+				3508EC631D749D39009B0EE4 /* NSExpression+MGLAdditions.mm */,
+				352903991D6C63B80002C7DF /* NSPredicate+MGLAdditions.h */,
+				3529039A1D6C63B80002C7DF /* NSPredicate+MGLAdditions.mm */,
 				DAE6C3801CC31E2A00DB3429 /* NSProcessInfo+MGLAdditions.h */,
 				DAE6C3811CC31E2A00DB3429 /* NSProcessInfo+MGLAdditions.m */,
 				DAE6C3821CC31E2A00DB3429 /* NSString+MGLAdditions.h */,
@@ -717,12 +729,6 @@
 				DAED385E1D62CED700D7640F /* NSURL+MGLAdditions.m */,
 				DA35A2CD1CCAAED300E826B2 /* NSValue+MGLAdditions.h */,
 				DA35A2CE1CCAAED300E826B2 /* NSValue+MGLAdditions.m */,
-				352903991D6C63B80002C7DF /* NSPredicate+MGLAdditions.h */,
-				3529039A1D6C63B80002C7DF /* NSPredicate+MGLAdditions.mm */,
-				35C5D8431D6DD66D00E95907 /* NSComparisonPredicate+MGLAdditions.h */,
-				35C5D8441D6DD66D00E95907 /* NSComparisonPredicate+MGLAdditions.mm */,
-				35C5D8451D6DD66D00E95907 /* NSCompoundPredicate+MGLAdditions.h */,
-				35C5D8461D6DD66D00E95907 /* NSCompoundPredicate+MGLAdditions.mm */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -841,6 +847,7 @@
 			files = (
 				3593E52D1D52A680006D9365 /* NSColor+MGLStyleAttributeAdditions_Private.h in Headers */,
 				DA8F258F1D51CA600010E6B5 /* MGLRasterStyleLayer.h in Headers */,
+				3508EC641D749D39009B0EE4 /* NSExpression+MGLAdditions.h in Headers */,
 				DAE6C38D1CC31E2A00DB3429 /* MGLOfflineRegion_Private.h in Headers */,
 				DA8F25AB1D51CB270010E6B5 /* NSNumber+MGLStyleAttributeAdditions_Private.h in Headers */,
 				DA8F259C1D51CB000010E6B5 /* MGLStyleAttributeValue_Private.h in Headers */,
@@ -1106,6 +1113,7 @@
 				DAE6C38C1CC31E2A00DB3429 /* MGLOfflinePack.mm in Sources */,
 				35D65C5B1D65AD5500722C23 /* NSDate+MGLAdditions.mm in Sources */,
 				DAE6C3B11CC31EF300DB3429 /* MGLAnnotationImage.m in Sources */,
+				3508EC651D749D39009B0EE4 /* NSExpression+MGLAdditions.mm in Sources */,
 				DACC22151CF3D3E200D220D9 /* MGLFeature.mm in Sources */,
 				355BA4EE1D41633E00CCC6D5 /* NSColor+MGLAdditions.mm in Sources */,
 				DAE6C3B31CC31EF300DB3429 /* MGLAttributionButton.m in Sources */,
