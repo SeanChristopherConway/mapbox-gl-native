@@ -1,7 +1,6 @@
 // This file is generated. 
 // Edit platform/darwin/scripts/generate-style-code.js, then run `make style-code-darwin`.
 
-#import "MGLBaseStyleLayer_Private.h"
 #import "MGLStyleLayer_Private.h"
 #import "MGLStyleAttributeValue.h"
 #import "MGLCircleStyleLayer.h"
@@ -33,7 +32,6 @@
 
 - (void)setCircleRadius:(id <MGLStyleAttributeValue, MGLStyleAttributeValue_Private>)circleRadius {
     self.layer->setCircleRadius(circleRadius.mbgl_floatPropertyValue);
-    [self update];
 }
 
 - (id <MGLStyleAttributeValue>)circleRadius {
@@ -42,7 +40,6 @@
 
 - (void)setCircleColor:(id <MGLStyleAttributeValue, MGLStyleAttributeValue_Private>)circleColor {
     self.layer->setCircleColor(circleColor.mbgl_colorPropertyValue);
-    [self update];
 }
 
 - (id <MGLStyleAttributeValue>)circleColor {
@@ -51,7 +48,6 @@
 
 - (void)setCircleBlur:(id <MGLStyleAttributeValue, MGLStyleAttributeValue_Private>)circleBlur {
     self.layer->setCircleBlur(circleBlur.mbgl_floatPropertyValue);
-    [self update];
 }
 
 - (id <MGLStyleAttributeValue>)circleBlur {
@@ -60,7 +56,6 @@
 
 - (void)setCircleOpacity:(id <MGLStyleAttributeValue, MGLStyleAttributeValue_Private>)circleOpacity {
     self.layer->setCircleOpacity(circleOpacity.mbgl_floatPropertyValue);
-    [self update];
 }
 
 - (id <MGLStyleAttributeValue>)circleOpacity {
@@ -69,7 +64,6 @@
 
 - (void)setCircleTranslate:(id <MGLStyleAttributeValue, MGLStyleAttributeValue_Private>)circleTranslate {
     self.layer->setCircleTranslate(circleTranslate.mbgl_offsetPropertyValue);
-    [self update];
 }
 
 - (id <MGLStyleAttributeValue>)circleTranslate {
@@ -78,7 +72,6 @@
 
 - (void)setCircleTranslateAnchor:(id <MGLStyleAttributeValue, MGLStyleAttributeValue_Private>)circleTranslateAnchor {
     MGLSetEnumProperty(circleTranslateAnchor, CircleTranslateAnchor, TranslateAnchorType, MGLCircleStyleLayerCircleTranslateAnchor);
-    [self update];
 }
 
 - (id <MGLStyleAttributeValue>)circleTranslateAnchor {
@@ -87,7 +80,6 @@
 
 - (void)setCirclePitchScale:(id <MGLStyleAttributeValue, MGLStyleAttributeValue_Private>)circlePitchScale {
     MGLSetEnumProperty(circlePitchScale, CirclePitchScale, CirclePitchScaleType, MGLCircleStyleLayerCirclePitchScale);
-    [self update];
 }
 
 - (id <MGLStyleAttributeValue>)circlePitchScale {
