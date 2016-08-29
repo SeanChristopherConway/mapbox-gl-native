@@ -36,6 +36,14 @@ typedef NS_ENUM(NSUInteger, MGL<%- camelize(type) %>StyleLayer<%- camelize(prope
 @interface MGL<%- camelize(type) %>StyleLayer : MGLBaseStyleLayer <MGLStyleLayer>
 
 <% if (type !== 'background' && type !== 'raster') { -%>
+/**
+ A predicate that corresponds to the layer's filter.
+ 
+ The predicate's left expression must be a string that identifies a feature
+ property, or one of the following special keys:
+    "$type" - identifies the feature by type.
+    "$id" - identifies the feature by id.
+ */
 @property (nonatomic, nullable) NSPredicate *predicate;
 
 <% } -%>

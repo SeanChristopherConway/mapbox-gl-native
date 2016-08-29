@@ -18,6 +18,14 @@ typedef NS_ENUM(NSUInteger, MGLCircleStyleLayerCirclePitchScale) {
 
 @interface MGLCircleStyleLayer : MGLBaseStyleLayer <MGLStyleLayer>
 
+/**
+ A predicate that corresponds to the layer's filter.
+ 
+ The predicate's left expression must be a string that identifies a feature
+ property, or one of the following special keys:
+    "$type" - identifies the feature by type.
+    "$id" - identifies the feature by id.
+ */
 @property (nonatomic, nullable) NSPredicate *predicate;
 
 #pragma mark - Accessing the Paint Attributes
