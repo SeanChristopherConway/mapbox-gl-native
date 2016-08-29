@@ -80,20 +80,26 @@
 
 - (void)testAndPredicates
 {
-    layer.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:self.predicates];
+    NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:self.predicates];
+    layer.predicate = predicate;
+    XCTAssertEqualObjects(predicate, layer.predicate);
     [self.mapView.style addLayer:layer];
 }
 
 - (void)testOrPredicates
 {
-    layer.predicate = [NSCompoundPredicate orPredicateWithSubpredicates:self.predicates];
+    NSPredicate *predicate = [NSCompoundPredicate orPredicateWithSubpredicates:self.predicates];
+    layer.predicate = predicate;
+    XCTAssertEqualObjects(predicate, layer.predicate);
     [self.mapView.style addLayer:layer];
 }
 
 - (void)testNotPredicates
 {
-    NSCompoundPredicate *notPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:self.predicates];
-    layer.predicate = [NSCompoundPredicate notPredicateWithSubpredicate:notPredicate];
+    NSPredicate *predicates = [NSCompoundPredicate andPredicateWithSubpredicates:self.predicates];
+    NSCompoundPredicate *predicate = [NSCompoundPredicate notPredicateWithSubpredicate:predicates];
+    layer.predicate = predicate;
+    XCTAssertEqualObjects(predicate, layer.predicate);
     [self.mapView.style addLayer:layer];
 }
 

@@ -67,15 +67,24 @@ public:
     }
     
     NSPredicate* operator()(mbgl::style::NoneFilter filter) {
-        NSCompoundPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:getPredicates(filter.filters)];
-        return [NSCompoundPredicate notPredicateWithSubpredicate:predicate];
+        NSArray *predicates = getPredicates(filter.filters);
+        if (predicates.count > 1) {
+            NSCompoundPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:predicates];
+            return [NSCompoundPredicate notPredicateWithSubpredicate:predicate];
+        } else {
+            return [NSCompoundPredicate notPredicateWithSubpredicate:predicates.firstObject];
+        }
     }
     
     NSPredicate* operator()(mbgl::style::HasFilter filter) {
+        [NSException raise:@"Unsupported filter type"
+                    format:@"Cannot convert mbgl::style::HasFilter to NSPredicate"];
         return nil;
     }
     
     NSPredicate* operator()(mbgl::style::NotHasFilter filter) {
+        [NSException raise:@"Unsupported filter type"
+                    format:@"Cannot convert mbgl::style::NotHasFilter to NSPredicate"];
         return nil;
     }
     
