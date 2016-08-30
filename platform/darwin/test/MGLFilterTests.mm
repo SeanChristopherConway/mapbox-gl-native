@@ -1,5 +1,8 @@
 #import "MGLStyleLayerTests.h"
 
+#import "NSPredicate+MGLAdditions.h"
+#import "MGLValueEvaluator.h"
+
 @interface MGLFilterTests : MGLStyleLayerTests {
     MGLGeoJSONSource *source;
     MGLLineStyleLayer *layer;
@@ -62,6 +65,25 @@
     [self.mapView.style addLayer:layer];
 }
 
+- (void)testIntermittentEncoding
+{
+    NSPredicate *specialCharsPredicate = [NSPredicate predicateWithFormat:@"%K == %@", @"ty-’pè", @"sŒm-ethįng"];
+    layer.predicate = specialCharsPredicate;
+    
+    NSComparisonPredicate *getPredicate = (NSComparisonPredicate *)layer.predicate;
+    mbgl::style::EqualsFilter filter = layer.predicate.mgl_filter.get<mbgl::style::EqualsFilter>();
+    
+    id objcKey = getPredicate.leftExpression.keyPath;
+    id cppKey = @(filter.key.c_str());
+    id objcValue = mbgl::Value::visit(getPredicate.rightExpression.mgl_filterValue, ValueEvaluator());
+    id cppValue = mbgl::Value::visit(filter.value, ValueEvaluator());
+    
+    XCTAssertEqualObjects(objcKey, cppKey);
+    XCTAssertEqualObjects(objcValue, cppValue);
+    
+    [self.mapView.style addLayer:layer];
+}
+
 - (void)testNestedFilters
 {
     NSPredicate *equalPredicate = [NSPredicate predicateWithFormat:@"type == 'neighbourhood'"];
@@ -94,9 +116,18 @@
     [self.mapView.style addLayer:layer];
 }
 
-- (void)testNotPredicates
+- (void)testNotAndPredicates
 {
     NSPredicate *predicates = [NSCompoundPredicate andPredicateWithSubpredicates:self.predicates];
+    NSCompoundPredicate *predicate = [NSCompoundPredicate notPredicateWithSubpredicate:predicates];
+    layer.predicate = predicate;
+    XCTAssertEqualObjects(predicate, layer.predicate);
+    [self.mapView.style addLayer:layer];
+}
+
+- (void)testNotOrPredicates
+{
+    NSPredicate *predicates = [NSCompoundPredicate orPredicateWithSubpredicates:self.predicates];
     NSCompoundPredicate *predicate = [NSCompoundPredicate notPredicateWithSubpredicate:predicates];
     layer.predicate = predicate;
     XCTAssertEqualObjects(predicate, layer.predicate);

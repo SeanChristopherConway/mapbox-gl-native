@@ -7,17 +7,16 @@ public:
     
     NSArray* getPredicates(std::vector<mbgl::style::Filter> filters) {
         NSMutableArray *predicates = [NSMutableArray arrayWithCapacity:filters.size()];
-        for (auto nf : filters) {
-            FilterEvaluator evaluator;
-            [predicates addObject:mbgl::style::Filter::visit(nf, evaluator)];
+        for (auto filter : filters) {
+            [predicates addObject:mbgl::style::Filter::visit(filter, FilterEvaluator())];
         }
         return predicates;
     }
     
-    NSArray* getValues(std::vector<mbgl::Value> v) {
-        NSMutableArray *array = [NSMutableArray arrayWithCapacity:v.size()];
-        for (std::vector<mbgl::Value>::iterator it = v.begin(); it != v.end(); ++it) {
-            [array addObject:mbgl::Value::visit(*it, ValueEvaluator())];
+    NSArray* getValues(std::vector<mbgl::Value> values) {
+        NSMutableArray *array = [NSMutableArray arrayWithCapacity:values.size()];
+        for (auto value : values) {
+            [array addObject:mbgl::Value::visit(value, ValueEvaluator())];
         }
         return array;
     }
