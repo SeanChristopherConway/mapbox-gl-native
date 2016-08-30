@@ -14,12 +14,10 @@ typedef NS_ENUM(NSUInteger, MGLFillStyleLayerFillTranslateAnchor) {
 @interface MGLFillStyleLayer : MGLBaseStyleLayer <MGLStyleLayer>
 
 /**
- A predicate that corresponds to the layer's filter.
+ A predicate that corresponds to the layer's <a href='https://www.mapbox.com/mapbox-gl-style-spec/#types-filter'>filter</a>.
  
  The predicate's left expression must be a string that identifies a feature
- property, or one of the following special keys:
-    "$type" - identifies the feature by type.
-    "$id" - identifies the feature by id.
+ property, or one of the special keys.
  */
 @property (nonatomic, nullable) NSPredicate *predicate;
 
