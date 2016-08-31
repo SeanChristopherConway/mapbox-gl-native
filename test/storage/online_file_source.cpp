@@ -359,3 +359,56 @@ TEST(OnlineFileSource, TEST_REQUIRES_SERVER(NetworkStatusOnlineOffline)) {
 
     loop.run();
 }
+
+TEST(OnlineFileSource, TEST_REQUIRES_SERVER(RateLimit)) {
+    util::RunLoop loop;
+    OnlineFileSource fs;
+
+
+    auto start = Clock::now();
+    
+    auto req = fs.request({ Resource::Unknown, "http://127.0.0.1:3000/temporary-rate-limit" }, [&](Response res) {
+        static int counter = 0;
+        switch (counter++) {
+            //RetryAfter (seconds)
+            case 0: {
+                const auto duration = std::chrono::duration<const double>(Clock::now() - start).count();
+                EXPECT_GT(duration, 0.99) << "Backoff timer didn't wait 1 second";
+                EXPECT_LT(duration, 1.2) << "Backoff timer fired too late";
+                ASSERT_NE(nullptr, res.error);
+                EXPECT_EQ(Response::Error::Reason::RateLimit, res.error->reason);
+            } break;
+            //Mapbox api custom header
+            case 1: {
+                const auto duration = std::chrono::duration<const double>(Clock::now() - start).count();
+                EXPECT_GT(duration, 0.99) << "Backoff timer didn't wait 1 second";
+                EXPECT_LT(duration, 1.2) << "Backoff timer fired too late";
+                ASSERT_NE(nullptr, res.error);
+                EXPECT_EQ(Response::Error::Reason::RateLimit, res.error->reason);
+            } break;
+            //No header, fall back to default
+            case 2: {
+                const auto duration = std::chrono::duration<const double>(Clock::now() - start).count();
+                EXPECT_GT(duration, 0.99) << "Backoff timer didn't wait 1 second";
+                EXPECT_LT(duration, 1.2) << "Backoff timer fired too late";
+                ASSERT_NE(nullptr, res.error);
+                EXPECT_EQ(Response::Error::Reason::RateLimit, res.error->reason);
+            } break;
+            //Final response
+            case 3: {
+                const auto duration = std::chrono::duration<const double>(Clock::now() - start).count();
+                EXPECT_GT(duration, 0.99) << "Backoff timer didn't wait 1 second";
+                EXPECT_LT(duration, 1.2) << "Backoff timer fired too late";
+                EXPECT_EQ(nullptr, res.error);
+                ASSERT_TRUE(res.data.get());
+                EXPECT_EQ("Hello World!", *res.data);
+                loop.stop();
+            } break;
+            
+            //Restart count after each request
+            start = Clock::now();
+        }
+    });
+    
+    loop.run();
+}

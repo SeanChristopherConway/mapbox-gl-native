@@ -116,6 +116,31 @@ app.get('/temporary-error', function(req, res) {
     temporaryErrorCounter++;
 });
 
+var temporaryRateLimitCounter = 0;
+app.get('/temporary-rate-limit', function(req, res) {
+    switch (temporaryRateLimitCounter) {
+        case 0:
+            //"Standard" header
+            res.setHeader('RetryAfter', 1);
+            res.status(429).end();
+            break;
+        case 1:
+            //Mapbox api custom header
+            res.setHeader('x-rate-limit-reset', Math.round(Date.now() / 1000) + 1);
+            res.status(429).end();
+            break;
+        case 2:
+            //No header, force default
+            res.status(429).end();
+            break;
+        default:
+            //We're done here
+            res.status(200).send('Hello World!');
+    }
+
+    temporaryRateLimitCounter++;
+});
+
 app.get('/delayed', function(req, res) {
     setTimeout(function() {
         res.status(200).send('Response');

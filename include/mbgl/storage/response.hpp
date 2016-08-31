@@ -45,6 +45,7 @@ public:
         NotFound = 2,
         Server = 3,
         Connection = 4,
+        RateLimit = 5,
         Other = 6,
     } reason = Reason::Other;
 

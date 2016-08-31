@@ -35,6 +35,8 @@ std::ostream& operator<<(std::ostream& os, Response::Error::Reason r) {
         return os << "Response::Error::Reason::Server";
     case Response::Error::Reason::Connection:
         return os << "Response::Error::Reason::Connection";
+    case Response::Error::Reason::RateLimit:
+        return os << "Response::Error::Reason::RateLimit";
     case Response::Error::Reason::Other:
         return os << "Response::Error::Reason::Other";
     }
