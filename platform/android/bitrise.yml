@@ -49,17 +49,18 @@ workflows:
             gcloud auth activate-service-account --key-file secret.json --project android-gl-native
             gcloud beta test android devices list
 
+            pwd
             ls
 
-            echo "Before testing--"
-
             testUri="gs://test-lab-wrrntqk05p31w-h3y1qk44vuunw/"
-            testUri+=$(gcloud beta test android run --type instrumentation --app MapboxGLAndroidSDKTestApp-debug.apk --test MapboxGLAndroidSDKTestApp-debug-androidTest-unaligned.apk --device-ids shamu --os-version-ids 22 --locales en --orientations portrait --timeout 10m | egrep -o 'https?://console.developers.google.com/storage/[^ ].*' | cut -f7  -d /)
-
+            echo "Before testing--"
+            testOutput = $(gcloud beta test android run --type instrumentation --app MapboxGLAndroidSDKTestApp-debug.apk --test MapboxGLAndroidSDKTestApp-debug-androidTest-unaligned.apk --device-ids shamu --os-version-ids 22 --locales en --orientations portrait --timeout 10m)
             echo "After testing--"
+            testUri+= $testOutput | egrep -o 'https?://console.developers.google.com/storage/[^ ].*' | cut -f7  -d /)
 
             gsutil -m cp -r -U $testUri
 
+            pwd
             ls
     - slack:
         title: Post to Slack
