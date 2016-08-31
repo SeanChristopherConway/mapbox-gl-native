@@ -56,7 +56,7 @@ workflows:
             echo "Before testing--"
             testOutput = $(gcloud beta test android run --type instrumentation --app MapboxGLAndroidSDKTestApp-debug.apk --test MapboxGLAndroidSDKTestApp-debug-androidTest-unaligned.apk --device-ids shamu --os-version-ids 22 --locales en --orientations portrait --timeout 10m)
             echo "After testing--"
-            testUri+= $testOutput | egrep -o 'https?://console.developers.google.com/storage/[^ ].*' | cut -f7  -d /
+            testUri+= cat $testOutput | egrep -o 'https?://console.developers.google.com/storage/[^ ].*' | cut -f7  -d /
             echo $testUri
             gsutil -m cp -r -U $testUri
 
